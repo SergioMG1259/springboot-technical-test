@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
     private final PatientService patientService;
-    private  final EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     public AuthController(PatientService patientService, EmployeeService employeeService) {
         this.patientService = patientService;
