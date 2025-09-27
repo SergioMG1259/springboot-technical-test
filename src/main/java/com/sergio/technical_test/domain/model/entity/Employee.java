@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -21,4 +23,11 @@ public class Employee implements Serializable {
     @JoinColumn(name = "person_id", nullable = false, foreignKey = @ForeignKey(name = "FK_person_employee_id"))
     private Person person;
 
+    @ManyToMany // Solo para role Doctor
+    @JoinTable(
+            name = "doctor_specialty",
+            joinColumns = @JoinColumn(name = "employee_id", foreignKey = @ForeignKey(name = "FK_doctor_specialty_employee_id")),
+            inverseJoinColumns = @JoinColumn(name = "specialty_id", foreignKey = @ForeignKey(name = "FK_doctor_specialty_specialty"))
+    )
+    private Set<Specialty> specialties = new HashSet<>();
 }
