@@ -5,4 +5,5 @@ import com.sergio.technical_test.dto.PersonRequestDTO;
 
 public interface PersonService {
     Person create(PersonRequestDTO personRequestDTO);
+    Person update(Long id, PersonRequestDTO personRequestDTO);
 }
