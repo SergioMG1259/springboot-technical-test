@@ -49,7 +49,7 @@ public class SpecialtyServiceImpl implements SpecialtyService {
     public void delete(Long id) {
         Specialty specialty = specialtyRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Specialty not found with id: " + id));
-
+        specialtyRepository.deleteRelationsBySpecialty(specialty.getId());
         specialtyRepository.delete(specialty);
     }
 }

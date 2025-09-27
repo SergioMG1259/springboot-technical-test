@@ -9,7 +9,5 @@ import lombok.Data;
 public class PatientResponseDTO {
     String name;
     String surname;
-    String email;
-    String userName;
     Role role;
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Data
@@ -20,4 +21,7 @@ public class Patient implements Serializable {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id", nullable = false, foreignKey = @ForeignKey(name = "FK_person_patient_id"))
     private Person person;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    List<Attention> attentions;
 }

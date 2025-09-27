@@ -12,9 +12,9 @@ import com.sergio.technical_test.dto.PatientCreateDTO;
 import com.sergio.technical_test.dto.PatientResponseDTO;
 import com.sergio.technical_test.dto.PersonRequestDTO;
 import com.sergio.technical_test.dto.UserCreateDTO;
-import com.sergio.technical_test.mapping.UserMapper;
-import jakarta.transaction.Transactional;
+import com.sergio.technical_test.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PatientServiceImpl implements PatientService {
@@ -44,6 +44,13 @@ public class PatientServiceImpl implements PatientService {
         patient.setPerson(person);
         patient.setRole(Role.PATIENT);
         patientRepository.save(patient);
-        return new PatientResponseDTO(person.getName(), person.getSurname(), person.getEmail(), user.getUserName(), patient.getRole());
+        return new PatientResponseDTO(person.getName(), person.getSurname(), patient.getRole());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Patient getById(Long id) {
+        return patientRepository.findWithRelationsById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + id));
     }
 }

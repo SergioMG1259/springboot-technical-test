@@ -14,6 +14,6 @@ public class PersonMapper {
     }
 
     public Person toEntity(PersonRequestDTO personRequestDTO) {
-        return this.modelMapper.map(personRequestDTO, Person.class);
+        return modelMapper.map(personRequestDTO, Person.class);
     }
 }

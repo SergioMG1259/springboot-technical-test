@@ -15,13 +15,13 @@ import com.sergio.technical_test.dto.EmployeeResponseDTO;
 import com.sergio.technical_test.dto.PersonRequestDTO;
 import com.sergio.technical_test.dto.UserCreateDTO;
 import com.sergio.technical_test.exceptions.BadRequestException;
+import com.sergio.technical_test.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -67,6 +67,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         employeeRepository.save(employee);
 
-        return new EmployeeResponseDTO(person.getName(), person.getSurname(), person.getEmail(), user.getUserName(), role);
+        return new EmployeeResponseDTO(person.getName(), person.getSurname(), role);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Employee getById(Long id) {
+        return employeeRepository.findWithRelationsById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
     }
 }

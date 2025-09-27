@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -30,4 +31,7 @@ public class Employee implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "specialty_id", foreignKey = @ForeignKey(name = "FK_doctor_specialty_specialty"))
     )
     private Set<Specialty> specialties = new HashSet<>();
+
+    @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL)
+    List<Attention> attentions;
 }
