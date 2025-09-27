@@ -16,4 +16,8 @@ public class Patient implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "person_id", nullable = false, foreignKey = @ForeignKey(name = "FK_person_patient_id"))
+    private Person person;
 }

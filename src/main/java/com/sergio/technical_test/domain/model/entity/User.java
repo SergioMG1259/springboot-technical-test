@@ -21,7 +21,7 @@ public class User implements Serializable {
     private String password;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_id", nullable = false, foreignKey = @ForeignKey(name = "FK_person_id"))
+    @JoinColumn(name = "person_id", nullable = false, foreignKey = @ForeignKey(name = "FK_person_user_id"))
     private Person person;
 
     @Column(nullable = false)

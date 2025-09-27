@@ -1,7 +1,7 @@
 package com.sergio.technical_test.mapping;
 
 import com.sergio.technical_test.domain.model.entity.User;
-import com.sergio.technical_test.dto.UserRequestDTO;
+import com.sergio.technical_test.dto.UserCreateDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +13,7 @@ public class UserMapper {
         this.modelMapper = modelMapper;
     }
 
-    public User toEntity(UserRequestDTO userRequestDTO) {
+    public User toEntity(UserCreateDTO userRequestDTO) {
         return this.modelMapper.map(userRequestDTO, User.class);
     }
 }

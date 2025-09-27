@@ -28,6 +28,12 @@ public class Person implements Serializable {
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
     private User user;
 
+    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+    private Employee employee;
+
+    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+    private Patient patient;
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
