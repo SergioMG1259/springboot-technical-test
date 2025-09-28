@@ -50,24 +50,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional()
-    public void updatePassword(Long id, PasswordUpdateDTO passwordUpdateDTO) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + id));
-
-        user.setPassword(passwordUpdateDTO.getPassword());
-        user.setUpdatedAt(LocalDateTime.now());
-        userRepository.save(user);
-    }
-
-    @Override
-    @Transactional()
     public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
         // Autenticar al usuario utilizando AuthenticationManager
         // Activa la lógica del CustomUserDetailService (usa el userDetails de loadUserByUsername)
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequestDTO.getUserName(), loginRequestDTO.getPassword()));
         // Una vez autenticado, el objeto authentication contiene la información del usuario autenticado
-        //UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        // UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         String token = tokenProvider.createAccessToken(authentication);
         return new LoginResponseDTO(token);
     }

@@ -13,12 +13,14 @@ import com.sergio.technical_test.exceptions.ResourceNotFoundException;
 import com.sergio.technical_test.security.UserPrincipal;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Service
 public class AttentionServiceImpl implements AttentionService {
@@ -39,7 +41,7 @@ public class AttentionServiceImpl implements AttentionService {
         attentionResponseDTO.setStartDate(attentionCreated.getStartDate());
         attentionResponseDTO.setEndDate(attentionCreated.getEndDate());
         attentionResponseDTO.setReason(attentionCreated.getReason());
-        attentionResponseDTO.setCreatedDate(attentionCreated.getCreatedAt());
+        attentionResponseDTO.setCreatedAt(attentionCreated.getCreatedAt());
         attentionResponseDTO.setPatient(new PatientResponseDTO(patient.getPerson().getName(),
                 patient.getPerson().getSurname(), patient.getRole()));
         attentionResponseDTO.setEmployee(new EmployeeResponseDTO(employee.getPerson().getName(),
@@ -50,8 +52,18 @@ public class AttentionServiceImpl implements AttentionService {
     @Override
     @Transactional()
     public AttentionResponseDTO create(AttentionCreateDTO attentionCreateDTO) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal principal = (UserPrincipal) auth.getPrincipal();
+
         Patient patient = patientService.getById(attentionCreateDTO.getPatientId());
-        Employee employee = employeeService.getById(attentionCreateDTO.getEmployeeId());
+        Employee employee;
+        // En caso sea DOCTOR, no puede crear un attention para otro médico que no sea el mismo
+        if (auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_DOCTOR"))) {
+            employee = employeeService.getByUserId(principal.getUserId());
+        } else {
+            employee = employeeService.getById(attentionCreateDTO.getEmployeeId());
+        }
 
         // Verifica que el paciente o el doctor no tengan citas ya agendadas en un rango de tiempo
         boolean overlap = attentionRepository.existsAttentionInRange(
@@ -127,8 +139,21 @@ public class AttentionServiceImpl implements AttentionService {
     @Override
     @Transactional()
     public AttentionResponseDTO update(Long id, AttentionUpdateDTO attentionUpdateDTO) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal principal = (UserPrincipal) auth.getPrincipal();
+
         Attention attention = attentionRepository.findWithRelationsById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Attention not found with id: " + id));
+
+        // Los ADMINs pueden modificar attentions de distintos DOCTORs
+        // Los DOCTORs solo pueden modificar los attentions que les corresponden, no de otros DOCTORs
+        if (auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_DOCTOR"))) {
+            Employee employee = employeeService.getByUserId(principal.getUserId());
+            if (!Objects.equals(attention.getEmployee().getId(), employee.getId())) {
+                throw new AccessDeniedException("You cannot modify this attention");
+            }
+        }
 
         // End date debe ser posterior a start date
         if (attentionUpdateDTO.getEndDate().isBefore(attentionUpdateDTO.getStartDate())) {

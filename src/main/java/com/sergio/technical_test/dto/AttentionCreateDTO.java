@@ -19,6 +19,8 @@ public class AttentionCreateDTO {
     @NotNull(message = "The patient id cannot be null")
     private Long patientId;
 
+    // Los ADMINs pueden crear attentions para distintos DOCTORs
+    // Un DOCTOR solo puede crear un attention para si mismo, en ese caso employeeId se ignorará
     @NotNull(message = "The employee id cannot be null")
     private Long employeeId;
 }

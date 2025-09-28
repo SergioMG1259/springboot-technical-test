@@ -24,5 +24,5 @@ public class Specialty implements Serializable {
     private LocalDateTime updatedAt;
 
     @ManyToMany(mappedBy = "specialties")
-    private Set<Employee> doctors = new HashSet<>();
+    private Set<Employee> doctors;
 }

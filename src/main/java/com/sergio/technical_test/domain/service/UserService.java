@@ -9,6 +9,5 @@ import com.sergio.technical_test.dto.UserCreateDTO;
 
 public interface UserService {
     User create(UserCreateDTO userCreateDTO, Person person);
-    void updatePassword(Long id, PasswordUpdateDTO passwordUpdateDTO);
     LoginResponseDTO login(LoginRequestDTO loginRequestDTO);
 }

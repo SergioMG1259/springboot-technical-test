@@ -30,7 +30,7 @@ public class Employee implements Serializable {
             joinColumns = @JoinColumn(name = "employee_id", foreignKey = @ForeignKey(name = "FK_doctor_specialty_employee_id")),
             inverseJoinColumns = @JoinColumn(name = "specialty_id", foreignKey = @ForeignKey(name = "FK_doctor_specialty_specialty"))
     )
-    private Set<Specialty> specialties = new HashSet<>();
+    private Set<Specialty> specialties;
 
     @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL)
     List<Attention> attentions;

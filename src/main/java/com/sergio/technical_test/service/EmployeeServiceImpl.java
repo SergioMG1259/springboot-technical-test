@@ -56,19 +56,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         employee.setPerson(person);
         employee.setRole(role);
-        if (employee.getRole() == Role.DOCTOR) {
-            if (employeeCreateDTO.getSpecialtyIds().isEmpty()) {
-                throw new BadRequestException("Doctor must have at least one specialty");
+        try {
+            if (employee.getRole() == Role.DOCTOR) {
+                if (employeeCreateDTO.getSpecialtyIds().isEmpty()) {
+                    throw new BadRequestException("Doctor must have at least one specialty");
+                }
+                Set<Specialty> specialties = new HashSet<>(specialtyRepository.findAllById(employeeCreateDTO.getSpecialtyIds()));
+                if (specialties.isEmpty()) {
+                    throw new BadRequestException("Specialties do not exist");
+                }
+                employee.setSpecialties(specialties);
+            } else {
+                employee.setSpecialties(new HashSet<>());
             }
-            Set<Specialty> specialties = new HashSet<>(specialtyRepository.findAllById(employeeCreateDTO.getSpecialtyIds()));
-            if (specialties.isEmpty()) {
-                throw new BadRequestException("Specialties do not exist");
-            }
-            employee.setSpecialties(specialties);
-        } else {
-            employee.setSpecialties(Collections.emptySet());
+            employeeRepository.save(employee);
+        } catch ( RuntimeException  e) {
+            System.out.println("Error al guardar Employee: " + e.getMessage());
         }
-        employeeRepository.save(employee);
 
         return new EmployeeResponseDTO(person.getName(), person.getSurname(), role);
     }

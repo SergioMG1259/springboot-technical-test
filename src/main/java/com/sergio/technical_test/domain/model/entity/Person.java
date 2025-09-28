@@ -25,15 +25,6 @@ public class Person implements Serializable {
     @Column(nullable = false)
     private LocalDateTime birthday;
 
-    //@OneToOne(mappedBy = "person")
-    //private User user;
-
-    //@OneToOne(mappedBy = "person")
-    //private Employee employee;
-
-    //@OneToOne(mappedBy = "person")
-    //private Patient patient;
-
     @Column(nullable = false)
     private LocalDateTime createdAt;
 

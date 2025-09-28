@@ -11,5 +11,5 @@ public class AttentionResponseDTO {
     private String reason;
     private PatientResponseDTO patient;
     private EmployeeResponseDTO employee;
-    private LocalDateTime createdDate;
+    private LocalDateTime createdAt;
 }

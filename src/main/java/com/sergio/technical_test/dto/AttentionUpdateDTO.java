@@ -10,17 +10,11 @@ public class AttentionUpdateDTO {
     @NotNull(message = "The startDate cannot be null")
     private LocalDateTime startDate;
 
-    @NotNull(message = "The startDate cannot be null")
+    @NotNull(message = "The endDate cannot be null")
     private LocalDateTime endDate;
 
     @NotNull(message = "The reason cannot be null")
     @NotBlank(message = "The reason cannot be empty")
     @Size(max = 200, message = "The reason cannot exceed 200 characters")
     private String reason;
-
-    @NotNull(message = "The patient id cannot be null")
-    private Long patientId;
-
-    @NotNull(message = "The employee id cannot be null")
-    private Long employeeId;
 }
