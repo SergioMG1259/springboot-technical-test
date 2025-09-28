@@ -6,6 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,5 +25,5 @@ public class Specialty implements Serializable {
     private LocalDateTime updatedAt;
 
     @ManyToMany(mappedBy = "specialties")
-    private Set<Employee> doctors;
+    private List<Employee> doctors;
 }

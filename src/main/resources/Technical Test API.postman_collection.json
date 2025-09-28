@@ -1,0 +1,364 @@
+{
+	"info": {
+		"_postman_id": "abe088bf-3996-493c-859e-3d05e9cb0c54",
+		"name": "Technical Test API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "18112044"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "createPatient",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"person\": {\r\n        \"name\":\"Martin\",\r\n        \"surname\":\"Gonzales Guanilo\",\r\n        \"email\":\"martinGG08@example.com\",\r\n        \"birthday\": \"2001-05-12T00:00:00\"\r\n    },\r\n    \"user\": {\r\n        \"userName\":\"Martin200190\",\r\n        \"password\":\"123456789\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8105/api/v1/auth/createPatient"
+					},
+					"response": []
+				},
+				{
+					"name": "createAdmin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBbGljZTE5ODAwNTEwIiwicm9sZSI6IlJPTEVfQURNSU4iLCJ1c2VySWQiOjEsImVtYWlsIjoiYWxpY2Uuc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NTkwNTg2OTd9.APJ6sEg3SDJ2Qci3nhF-Og7KgGw_LsOf3kdHlp446klFjAH-Dpo8UXU2osDKtRK0YYpGrcXQxmrtsEUempEuIQ"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"person\": {\r\n        \"name\":\"Ramiro\",\r\n        \"surname\":\"Cueva Pazos\",\r\n        \"email\":\"ramiroCuePz@example.com\",\r\n        \"birthday\": \"2000-07-11T18:30:00\"\r\n    },\r\n    \"user\": {\r\n        \"userName\":\"Ramiro200071\",\r\n        \"password\":\"123456789\"\r\n    },\r\n    \"specialtyIds\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8105/api/v1/auth/createAdmin"
+					},
+					"response": []
+				},
+				{
+					"name": "createDoctor",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBbGljZTE5ODAwNTEwIiwicm9sZSI6IlJPTEVfQURNSU4iLCJ1c2VySWQiOjEsImVtYWlsIjoiYWxpY2Uuc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NTkwNTg2OTd9.APJ6sEg3SDJ2Qci3nhF-Og7KgGw_LsOf3kdHlp446klFjAH-Dpo8UXU2osDKtRK0YYpGrcXQxmrtsEUempEuIQ"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"person\": {\r\n        \"name\":\"Lucía\",\r\n        \"surname\":\"Sanchez Quiroz\",\r\n        \"email\":\"luciaSanChez228@example.com\",\r\n        \"birthday\": \"1992-10-11T00:00:00\"\r\n    },\r\n    \"user\": {\r\n        \"userName\":\"Lucia199228\",\r\n        \"password\":\"123456789\"\r\n    },\r\n    \"specialtyIds\": [2,3]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8105/api/v1/auth/createDoctor"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"Alice19800510\",\r\n    \"password\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8105/api/v1/auth/login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Specialty",
+			"item": [
+				{
+					"name": "createSpecialty",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBbGljZTE5ODAwNTEwIiwicm9sZSI6IlJPTEVfQURNSU4iLCJ1c2VySWQiOjEsImVtYWlsIjoiYWxpY2Uuc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NTkwNTg2OTd9.APJ6sEg3SDJ2Qci3nhF-Og7KgGw_LsOf3kdHlp446klFjAH-Dpo8UXU2osDKtRK0YYpGrcXQxmrtsEUempEuIQ"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Geriatrics\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8105/api/v1/specialties"
+					},
+					"response": []
+				},
+				{
+					"name": "updateSpecialty",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBbGljZTE5ODAwNTEwIiwicm9sZSI6IlJPTEVfQURNSU4iLCJ1c2VySWQiOjEsImVtYWlsIjoiYWxpY2Uuc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NTkwNTg2OTd9.APJ6sEg3SDJ2Qci3nhF-Og7KgGw_LsOf3kdHlp446klFjAH-Dpo8UXU2osDKtRK0YYpGrcXQxmrtsEUempEuIQ"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Urology\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8105/api/v1/specialties/7"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteSpecialty",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBbGljZTE5ODAwNTEwIiwicm9sZSI6IlJPTEVfQURNSU4iLCJ1c2VySWQiOjEsImVtYWlsIjoiYWxpY2Uuc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NTkwNTg2OTd9.APJ6sEg3SDJ2Qci3nhF-Og7KgGw_LsOf3kdHlp446klFjAH-Dpo8UXU2osDKtRK0YYpGrcXQxmrtsEUempEuIQ"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Urology\"\r\n}"
+						},
+						"url": "http://localhost:8105/api/v1/specialties/7"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Attention",
+			"item": [
+				{
+					"name": "createAttention",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBbGljZTE5ODAwNTEwIiwicm9sZSI6IlJPTEVfQURNSU4iLCJ1c2VySWQiOjEsImVtYWlsIjoiYWxpY2Uuc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NTkwNTg2OTd9.APJ6sEg3SDJ2Qci3nhF-Og7KgGw_LsOf3kdHlp446klFjAH-Dpo8UXU2osDKtRK0YYpGrcXQxmrtsEUempEuIQ"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"startDate\":\"2025-09-30T13:00:00\",\r\n    \"reason\": \"Nuevo problema de salud\",\r\n    \"patientId\": 7,\r\n    \"employeeId\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8105/api/v1/attentions"
+					},
+					"response": []
+				},
+				{
+					"name": "endAttention",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8105/api/v1/attentions/20"
+					},
+					"response": []
+				},
+				{
+					"name": "updateAttention",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBbGljZTE5ODAwNTEwIiwicm9sZSI6IlJPTEVfQURNSU4iLCJ1c2VySWQiOjEsImVtYWlsIjoiYWxpY2Uuc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NTkwNTkwMTZ9.DMBlk2oZfPT8zPD7StWC-rY9RRdrnHRpEFYQ_hK81iwRLAtCVafbfwXEb0CHxyaeXiVPreT2tYpi2oTiN6myHQ"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"startDate\":\"2025-09-30T17:30:00\",\r\n    \"endDate\":\"2025-09-30T17:50:00\",\r\n    \"reason\": \"Problemas médicos prueba update\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8105/api/v1/attentions/13"
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAttention",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBbGljZTE5ODAwNTEwIiwicm9sZSI6IlJPTEVfQURNSU4iLCJ1c2VySWQiOjEsImVtYWlsIjoiYWxpY2Uuc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NTkwNTkxNjB9.wno9l2kZPphf2F4-4cPEVMo9j7xtunB4f_pmkpV1hEnFnNcNkcIcUkR4n0SQX1LDRSBjndXswXny6vxY6QoNAg"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8105/api/v1/attentions/13"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAttentions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBbGljZTE5ODAwNTEwIiwicm9sZSI6IlJPTEVfQURNSU4iLCJ1c2VySWQiOjEsImVtYWlsIjoiYWxpY2Uuc21pdGhAZXhhbXBsZS5jb20iLCJleHAiOjE3NTkwNTkxNjB9.wno9l2kZPphf2F4-4cPEVMo9j7xtunB4f_pmkpV1hEnFnNcNkcIcUkR4n0SQX1LDRSBjndXswXny6vxY6QoNAg"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8105/api/v1/attentions?size=10&page=0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8105",
+							"path": [
+								"api",
+								"v1",
+								"attentions"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAttentionsByPatient",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJKYWNrMTk4MjA2MTgiLCJyb2xlIjoiUk9MRV9QQVRJRU5UIiwidXNlcklkIjoxMCwiZW1haWwiOiJqYWNrLmFuZGVyc29uQGV4YW1wbGUuY29tIiwiZXhwIjoxNzU5MDU5MjQ0fQ.WBO9L-MszeilPFK_xYrdfSaBUdSZNcPorWjta4BbtW6Cd9NvBXv1SRZkZphrC7UTKgdsxIaljQ7Q3EoUpZsr8Q"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "http://localhost:8105/api/v1/attentions/me/patient"
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAttentionsByDoctor",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJFdmExOTkyMTIxMCIsInJvbGUiOiJST0xFX0RPQ1RPUiIsInVzZXJJZCI6NSwiZW1haWwiOiJldmEuZGF2aXNAZXhhbXBsZS5jb20iLCJleHAiOjE3NTkwNTkyNzR9.po3aTyxkgTLlyXolUoFpuAITB528PiNEuEFXPzL5Mt2EFYhTIIa2n13jlR-IomC12nfgjoECveIzLcWPGEeOng"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8105/api/v1/attentions/me/doctor"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

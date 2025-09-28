@@ -139,7 +139,7 @@ A continuación se listan los endpoints disponibles, su función y los roles aut
 
 ## Pruebas en Postman
 
-En la carpeta resources del proyecto, también encontrará un archivo .json con el nombre **Technical Test API.postman_collection**. Este archivo debe ser importado en Postman para realizar las pruebas.
+En la carpeta resources del proyecto, también encontrará un archivo .json con el nombre **Technical Test API.postman_collection**. Este archivo puede ser reubicado en una carpeta externa al proyecto si quiere e importado en Postman para realizar las pruebas.
 
 Algunos usuarios son:
 

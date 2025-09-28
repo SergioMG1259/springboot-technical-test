@@ -20,9 +20,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -56,23 +55,19 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         employee.setPerson(person);
         employee.setRole(role);
-        try {
-            if (employee.getRole() == Role.DOCTOR) {
-                if (employeeCreateDTO.getSpecialtyIds().isEmpty()) {
-                    throw new BadRequestException("Doctor must have at least one specialty");
-                }
-                Set<Specialty> specialties = new HashSet<>(specialtyRepository.findAllById(employeeCreateDTO.getSpecialtyIds()));
-                if (specialties.isEmpty()) {
-                    throw new BadRequestException("Specialties do not exist");
-                }
-                employee.setSpecialties(specialties);
-            } else {
-                employee.setSpecialties(new HashSet<>());
+        if (employee.getRole() == Role.DOCTOR) {
+            if (employeeCreateDTO.getSpecialtyIds().isEmpty()) {
+                throw new BadRequestException("Doctor must have at least one specialty");
             }
-            employeeRepository.save(employee);
-        } catch ( RuntimeException  e) {
-            System.out.println("Error al guardar Employee: " + e.getMessage());
+            List<Specialty> specialties = (specialtyRepository.findAllById(employeeCreateDTO.getSpecialtyIds()));
+            if (specialties.isEmpty()) {
+                throw new BadRequestException("Specialties do not exist");
+            }
+            employee.setSpecialties(specialties);
+        } else {
+            employee.setSpecialties(new ArrayList<>());
         }
+        employeeRepository.save(employee);
 
         return new EmployeeResponseDTO(person.getName(), person.getSurname(), role);
     }
