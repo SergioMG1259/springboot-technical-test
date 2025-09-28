@@ -10,7 +10,8 @@ public interface AttentionService {
     AttentionResponseDTO create(AttentionCreateDTO attentionCreateDTO);
     AttentionResponseDTO endAttention(Long id);
     Page<AttentionResponseDTO> getAll(Pageable pageable);
-    Page<AttentionResponseDTO> getByPatient(Long id, Pageable pageable);
+    Page<AttentionResponseDTO> getByPatient(Pageable pageable);
+    Page<AttentionResponseDTO> getByEmployee(Pageable pageable);
     AttentionResponseDTO update(Long id, AttentionUpdateDTO attentionUpdateDTO);
     void delete(Long id);
 }

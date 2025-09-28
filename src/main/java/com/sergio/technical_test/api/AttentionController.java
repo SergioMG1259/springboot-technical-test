@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,7 @@ public class AttentionController {
         this.attentionService = attentionService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<Page<AttentionResponseDTO>> getAllAttentions(@RequestParam(defaultValue = "0") int page,
                                                                        @RequestParam(defaultValue = "10") int size,
@@ -34,6 +36,7 @@ public class AttentionController {
         return new ResponseEntity<Page<AttentionResponseDTO>>(attentionService.getAll(pageable), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('PATIENT')")
     @GetMapping("/me/patient")
     public ResponseEntity<Page<AttentionResponseDTO>> getAllAttentionsByPatient(@RequestParam(defaultValue = "0") int page,
                                                                                 @RequestParam(defaultValue = "10") int size,
@@ -42,21 +45,36 @@ public class AttentionController {
                 ? Sort.by("startDate").ascending()
                 : Sort.by("startDate").descending();
         Pageable pageable = PageRequest.of(page, size, sort);
-        return new ResponseEntity<Page<AttentionResponseDTO>>(attentionService.getByPatient(1L, pageable), HttpStatus.OK);
+        return new ResponseEntity<Page<AttentionResponseDTO>>(attentionService.getByPatient(pageable), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('DOCTOR')")
+    @GetMapping("/me/doctor")
+    public ResponseEntity<Page<AttentionResponseDTO>> getAllAttentionsByDoctor(@RequestParam(defaultValue = "0") int page,
+                                                                                @RequestParam(defaultValue = "10") int size,
+                                                                                @RequestParam(defaultValue = "DESC") String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase("ASC")
+                ? Sort.by("startDate").ascending()
+                : Sort.by("startDate").descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return new ResponseEntity<Page<AttentionResponseDTO>>(attentionService.getByEmployee(pageable), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','DOCTOR')")
     @PostMapping
     public ResponseEntity<AttentionResponseDTO> createAttention(@Valid @RequestBody AttentionCreateDTO attentionCreateDTO) {
         AttentionResponseDTO attentionResponseDTO = attentionService.create(attentionCreateDTO);
         return new ResponseEntity<AttentionResponseDTO>(attentionResponseDTO, HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','DOCTOR')")
     @PatchMapping("/{attentionId}")
     public ResponseEntity<AttentionResponseDTO> endAttention(@PathVariable("attentionId") Long attentionId) {
         AttentionResponseDTO attentionResponseDTO = attentionService.endAttention(attentionId);
         return new ResponseEntity<AttentionResponseDTO>(attentionResponseDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','DOCTOR')")
     @PutMapping("{attentionId}")
     public ResponseEntity<AttentionResponseDTO> updateAttention(@PathVariable("attentionId") Long attentionId,
                                                                 @Valid @RequestBody AttentionUpdateDTO attentionUpdateDTO) {
@@ -64,6 +82,7 @@ public class AttentionController {
         return new ResponseEntity<AttentionResponseDTO>(attentionResponseDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("{attentionId}")
     public ResponseEntity<?> deleteAttention(@PathVariable("attentionId") Long attentionId) {
         attentionService.delete(attentionId);

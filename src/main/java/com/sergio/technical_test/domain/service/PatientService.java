@@ -7,4 +7,5 @@ import com.sergio.technical_test.dto.PatientResponseDTO;
 public interface PatientService {
     PatientResponseDTO create(PatientCreateDTO patientCreateDTO);
     Patient getById(Long id);
+    Patient getByUserId(Long id);
 }

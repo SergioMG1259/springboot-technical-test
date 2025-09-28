@@ -8,4 +8,5 @@ import com.sergio.technical_test.dto.EmployeeResponseDTO;
 public interface EmployeeService {
     EmployeeResponseDTO create(EmployeeCreateDTO employeeCreateDTO, Role role);
     Employee getById(Long id);
+    Employee getByUserId(Long id);
 }

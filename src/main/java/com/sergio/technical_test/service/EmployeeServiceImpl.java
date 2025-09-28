@@ -16,6 +16,7 @@ import com.sergio.technical_test.dto.PersonRequestDTO;
 import com.sergio.technical_test.dto.UserCreateDTO;
 import com.sergio.technical_test.exceptions.BadRequestException;
 import com.sergio.technical_test.exceptions.ResourceNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,13 +30,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final UserService userService;
     private final PersonService personService;
     private final SpecialtyRepository specialtyRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public EmployeeServiceImpl(EmployeeRepository employeeRepository, UserService userService, PersonService personService,
-                               SpecialtyRepository specialtyRepository) {
+                               SpecialtyRepository specialtyRepository, PasswordEncoder passwordEncoder) {
         this.employeeRepository = employeeRepository;
         this.userService = userService;
         this.personService = personService;
         this.specialtyRepository = specialtyRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Person person = personService.create(personRequestDTO);
 
         UserCreateDTO userCreateDTO = new UserCreateDTO(employeeCreateDTO.getUser().getUserName(),
-                employeeCreateDTO.getUser().getPassword());
+                passwordEncoder.encode(employeeCreateDTO.getUser().getPassword()));
         User user = userService.create(userCreateDTO, person);
 
         Employee employee = new Employee();
@@ -75,5 +78,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee getById(Long id) {
         return employeeRepository.findWithRelationsById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
+    }
+
+    @Override
+    public Employee getByUserId(Long id) {
+        return employeeRepository.findByUserId(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No employee associated with user id: " + id));
     }
 }

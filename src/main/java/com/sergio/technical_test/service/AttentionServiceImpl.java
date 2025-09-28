@@ -10,8 +10,11 @@ import com.sergio.technical_test.domain.service.PatientService;
 import com.sergio.technical_test.dto.*;
 import com.sergio.technical_test.exceptions.BadRequestException;
 import com.sergio.technical_test.exceptions.ResourceNotFoundException;
+import com.sergio.technical_test.security.UserPrincipal;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -97,9 +100,27 @@ public class AttentionServiceImpl implements AttentionService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<AttentionResponseDTO> getByPatient(Long id, Pageable pageable) {
-        Patient patient = patientService.getById(id);
+    public Page<AttentionResponseDTO> getByPatient(Pageable pageable) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal principal = (UserPrincipal) auth.getPrincipal();
+        Long userId = principal.getUserId();
+
+        Patient patient = patientService.getByUserId(userId);
         return attentionRepository.findAllByPatient_Id(patient.getId(), pageable).map(
+                attention -> getAttentionResponseDTO(attention, attention.getPatient(), attention.getEmployee()));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<AttentionResponseDTO> getByEmployee(Pageable pageable) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        UserPrincipal principal = (UserPrincipal) auth.getPrincipal();
+        Long userId = principal.getUserId();
+
+        Employee employee = employeeService.getByUserId(userId);
+        return attentionRepository.findAllByEmployee_Id(employee.getId(), pageable).map(
                 attention -> getAttentionResponseDTO(attention, attention.getPatient(), attention.getEmployee()));
     }
 

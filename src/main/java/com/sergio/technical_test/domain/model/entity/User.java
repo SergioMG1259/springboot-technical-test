@@ -17,7 +17,7 @@ public class User implements Serializable {
     @Column(nullable = false, length = 25,unique = true)
     private String userName;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private String password;
 
     @OneToOne(fetch = FetchType.LAZY)

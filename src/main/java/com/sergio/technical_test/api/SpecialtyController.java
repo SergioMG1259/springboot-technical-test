@@ -5,10 +5,13 @@ import com.sergio.technical_test.dto.SpecialtyDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/specialties")
+// Solo admins pueden modificar specialty
+@PreAuthorize("hasRole('ADMIN')")
 public class SpecialtyController {
     private final SpecialtyService specialtyService;
 

@@ -33,6 +33,14 @@ public interface AttentionRepository extends JpaRepository<Attention, Long> {
     })
     Page<Attention> findAllByPatient_Id(Long id, Pageable pageable);
 
+    @EntityGraph(attributePaths = {
+            "patient",          // carga patient
+            "patient.person",   // y también su person
+            "employee",         // carga employee
+            "employee.person"   // y también su person
+    })
+    Page<Attention> findAllByEmployee_Id(Long id, Pageable pageable);
+
     @Query("""
     SELECT COUNT(a) > 0 FROM Attention a
     WHERE (a.patient.id = :patientId OR a.employee.id = :employeeId)

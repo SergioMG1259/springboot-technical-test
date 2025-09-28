@@ -4,6 +4,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,6 +29,33 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         CustomErrorResponse err = new CustomErrorResponse(LocalDateTime.now(), ex.getMessage(),
                 request.getDescription(false));
         return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<CustomErrorResponse> handleModelAllException(Exception ex, WebRequest request) {
+
+        CustomErrorResponse err = new CustomErrorResponse(LocalDateTime.now(), ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<CustomErrorResponse> handleBadCredentialsException(BadCredentialsException ex, WebRequest request) {
+        System.out.println("asdasdasdasdasdasdsad");
+        CustomErrorResponse error = new CustomErrorResponse(LocalDateTime.now(), ex.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);  // 401 Unauthorized
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<CustomErrorResponse> handleAccessDeniedException(AccessDeniedException ex,
+                                                                           WebRequest request) {
+
+        CustomErrorResponse err = new CustomErrorResponse(LocalDateTime.now(), ex.getMessage(),
+                request.getDescription(false));
+
+        return new ResponseEntity<>(err, HttpStatus.FORBIDDEN);
     }
 
     @Override

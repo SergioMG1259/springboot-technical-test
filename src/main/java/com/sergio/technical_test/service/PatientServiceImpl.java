@@ -13,6 +13,7 @@ import com.sergio.technical_test.dto.PatientResponseDTO;
 import com.sergio.technical_test.dto.PersonRequestDTO;
 import com.sergio.technical_test.dto.UserCreateDTO;
 import com.sergio.technical_test.exceptions.ResourceNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,11 +22,14 @@ public class PatientServiceImpl implements PatientService {
     private final PatientRepository patientRepository;
     private final UserService userService;
     private final PersonService personService;
+    private final PasswordEncoder passwordEncoder;
 
-    public PatientServiceImpl(PatientRepository patientRepository, UserService userService, PersonService personService) {
+    public PatientServiceImpl(PatientRepository patientRepository, UserService userService, PersonService personService,
+                              PasswordEncoder passwordEncoder) {
         this.patientRepository = patientRepository;
         this.userService = userService;
         this.personService = personService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class PatientServiceImpl implements PatientService {
         Person person = personService.create(personRequestDTO);
 
         UserCreateDTO userCreateDTO = new UserCreateDTO(patientCreateDTO.getUser().getUserName(),
-                patientCreateDTO.getUser().getPassword());
+                passwordEncoder.encode(patientCreateDTO.getUser().getPassword()));
         User user = userService.create(userCreateDTO, person);
 
         Patient patient = new Patient();
@@ -52,5 +56,12 @@ public class PatientServiceImpl implements PatientService {
     public Patient getById(Long id) {
         return patientRepository.findWithRelationsById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id: " + id));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Patient getByUserId(Long id) {
+        return patientRepository.findByUserId(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No patient associated with user id: " + id));
     }
 }
